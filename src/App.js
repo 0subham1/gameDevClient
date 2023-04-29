@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
-function App() {
+const App = () => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState(12345);
+  const BASE_URL = "https://game-dev-server.vercel.app/";
+
+  const handleSave = () => {
+    const data = {
+      name: name,
+      phone: phone,
+    };
+    axios.post(BASE_URL + "signup", data).then((res) => {
+      console.log(res);
+      if (res.data) {
+        alert("Order placed successfully");
+      } else {
+        alert("error ");
+      }
+    });
+
+    console.log(data, "data");
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <input value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div>
+        <input
+          value={phone}
+          type="number"
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      <div>
+        <button onClick={handleSave}>save</button>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
